@@ -67,11 +67,8 @@ static int cmd_x(char *args)
   char *address = strtok(NULL, " ");
   int *result = (int *)strtol(address, NULL, 16);
 
-  for (int i = 0; i < n; i++)
-  {
-    int *this = result + 16 * i;
-    printf("Memory address is: %p and its value is: %d\n", this, *this);
-  }
+  printf("n is %d, Memory address is: %p and its value is: %d\n", n, result, *result);
+
   return 0;
 }
 
