@@ -46,6 +46,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args)
 {
   isa_exec_once();
+
   return 0;
 }
 
