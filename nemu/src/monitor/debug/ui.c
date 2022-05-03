@@ -72,7 +72,7 @@ static int cmd_x(char *args)
   // for (int i = 0; i < n; i++)
   // {
   int i = 0;
-  printf("0x%8x\t0x%x\n", exprs + i * 32, paddr_read(exprs + i * 32, 32));
+  printf("0x%8x\t0x%x\n", exprs + i * 32, paddr_read(exprs + i * 32, 4));
   // }
   return 0;
 }
