@@ -65,13 +65,13 @@ static int cmd_x(char *args)
   char *N = strtok(NULL, " ");
   int n = atoi(N);
   char *address = strtok(NULL, " ");
-  int result = 0;
-  sscanf(address, "%x", &result);
+  int *result = 0x0;
+  sscanf(address, "%x", result);
 
   for (int i = 0; i < 100; i++)
   {
   }
-  printf("n is %d, Memory address is: %p and its value is: %d\n", n, &result, result);
+  printf("n is %d, Memory address is: %p and its value is: \n", n, result);
 
   return 0;
 }
