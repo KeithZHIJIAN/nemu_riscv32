@@ -62,13 +62,15 @@ static int cmd_info(char *args)
 
 static int cmd_x(char *args)
 {
-  char *N = strtok(args, " ");
+  char *N = strtok(NULL, " ");
   int n = atoi(N);
-  word_t address = atoi(args);
+  char *address = strtok(NULL, " ");
+  int *result;
+  result = (int *)strtol(address, NULL, 16);
 
   for (int i = 0; i < n; i++)
   {
-    printf("Memory address is: %d and its value is: %d\n", address, 0);
+    printf("Memory address is: %p and its value is: %d\n", result, *result);
   }
   return 0;
 }
