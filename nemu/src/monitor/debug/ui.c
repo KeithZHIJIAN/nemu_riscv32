@@ -45,7 +45,7 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-  int iters = (args == NULL) ? 1 : 2;
+  int iters = (args == NULL) ? 1 : atoi(args);
   for (int i = 0; i < iters; i++)
     isa_exec_once();
   return 0;
