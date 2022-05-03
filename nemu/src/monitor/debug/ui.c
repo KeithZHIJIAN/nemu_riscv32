@@ -66,11 +66,8 @@ static int cmd_x(char *args)
   int n = atoi(N);
   char *address = strtok(NULL, " ");
   int *result = (int *)strtol(address, NULL, 16);
+  printf("result: %p, n: %d", result, n);
 
-  for (int i = 0; i < n; i++)
-  {
-    printf("Memory address is: %p and its value is: %d\n", result, *result);
-  }
   return 0;
 }
 
