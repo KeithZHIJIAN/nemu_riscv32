@@ -53,11 +53,23 @@ static int cmd_si(char *args)
 
 static int cmd_info(char *args)
 {
-
   if (strcmp(args, "r\0") == 0)
     isa_reg_display();
   else if (strcmp(args, "w\0") == 0)
     ;
+  return 0;
+}
+
+static int cmd_x(char *args)
+{
+  char *N = strtok(args, " ");
+  int n = atoi(N);
+  int *address = (int *)strtok(args, "\0");
+
+  for (int i = 0; i < n; i++)
+  {
+    printf("Memory address is: %p and its value is: %d\n", address, *address);
+  }
   return 0;
 }
 
@@ -74,7 +86,7 @@ static struct
     /* TODO: Add more commands */
     {"si", "Step through a single instruction", cmd_si},
     {"info", "List information about the argument", cmd_info},
-
+    {"x", "Display the memory contents at a given address", cmd_x},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
