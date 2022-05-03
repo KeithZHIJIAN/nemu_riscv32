@@ -65,12 +65,12 @@ static int cmd_x(char *args)
   char *N = strtok(NULL, " ");
   int n = atoi(N);
   char *address = strtok(NULL, " ");
-  int *result = (int *)strtol(address, NULL, 16);
+  int result = strtol(address, NULL, 16);
 
   for (int i = 0; i < 100; i++)
   {
   }
-  printf("n is %d, Memory address is: %p and its value is: %d\n", n, result, *result);
+  printf("n is %d, Memory address is: %d and its value is: %d\n", n, result, result);
 
   return 0;
 }
