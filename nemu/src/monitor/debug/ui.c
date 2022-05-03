@@ -51,6 +51,15 @@ static int cmd_si(char *args)
   return 0;
 }
 
+static int cmd_info(char *args)
+{
+  if (args[0] == 'r')
+    isa_reg_display();
+  else if (args[0] == 'w')
+    ;
+  return 0;
+}
+
 static struct
 {
   char *name;
@@ -62,7 +71,8 @@ static struct
     {"q", "Exit NEMU", cmd_q},
 
     /* TODO: Add more commands */
-    {"si", "Single instruction", cmd_si}
+    {"si", "Step through a single instruction", cmd_si},
+    {"info", "List information about the argument", cmd_info},
 
 };
 
