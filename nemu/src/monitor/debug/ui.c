@@ -65,7 +65,7 @@ static int cmd_x(char *args)
   char *N = strtok(NULL, " ");
   int n = atoi(N);
   char *address = strtok(NULL, " ");
-  int result = strtol(address, NULL, 16);
+  word_t result = atol(address);
 
   for (int i = 0; i < 100; i++)
   {
