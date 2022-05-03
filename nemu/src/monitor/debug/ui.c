@@ -66,12 +66,14 @@ static int cmd_x(char *args)
   {
     return 0;
   }
-  int n, exprs;
+  int n;
+  word_t exprs;
   sscanf(args, "%d%x", &n, &exprs);
-  for (int i = 0; i < n; i++)
-  {
-    printf("0x%8x\t0x%x\n", exprs + i * 32, paddr_read(exprs + i * 32, 32));
-  }
+  // for (int i = 0; i < n; i++)
+  // {
+  int i = 0;
+  printf("0x%8x\t0x%x\n", exprs + i * 32, paddr_read(exprs + i * 32, 32));
+  // }
   return 0;
 }
 
