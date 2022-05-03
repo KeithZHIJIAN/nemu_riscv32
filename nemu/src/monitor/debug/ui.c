@@ -45,8 +45,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-  // int iters = (sizeof(args) / sizeof(char) == 2) ? args[1] - '0' : 1;
-  for (int i = 0; i < 2; i++)
+  int iters = (args == NULL) ? 1 : 2;
+  for (int i = 0; i < iters; i++)
     isa_exec_once();
   return 0;
 }
