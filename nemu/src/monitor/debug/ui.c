@@ -62,11 +62,8 @@ static int cmd_info(char *args)
 
 static int cmd_x(char *args)
 {
-  char *N = strtok(NULL, " ");
-  int n = atoi(N);
-  char *address = strtok(NULL, " ");
-  int *result;
-  result = (int *)strtol(address, NULL, 16);
+  int n = atoi(strtok(NULL, " "));
+  int *result = (int *)strtol(strtok(NULL, " "), NULL, 16);
 
   for (int i = 0; i < n; i++)
   {
