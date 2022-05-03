@@ -53,6 +53,7 @@ static int cmd_si(char *args)
 
 static int cmd_info(char *args)
 {
+  printf("%s\n", args);
   if (*args == 'r')
     isa_reg_display();
   else if (*args == 'w')
