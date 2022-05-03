@@ -24,16 +24,7 @@ word_t isa_reg_str2val(const char *s, bool *success)
     if (strcmp(regs[i], s) == 0)
     {
       *success = true;
+      return cpu.gpr[i]._64;
     }
-  }
-  if (*success)
-  {
-    word_t ret;
-    register word_t ret asm(s);
-    return ret;
-  }
-  else
-  {
-    return 0;
   }
 }
