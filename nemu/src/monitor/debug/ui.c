@@ -53,10 +53,9 @@ static int cmd_si(char *args)
 
 static int cmd_info(char *args)
 {
-  printf("%s\n", args);
-  if (*args == 'r')
+  if (strcmp(args, "r") == 0)
     isa_reg_display();
-  else if (*args == 'w')
+  else if (strcmp(args, "w") == 0)
     ;
   return 0;
 }
