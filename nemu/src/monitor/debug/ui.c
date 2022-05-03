@@ -64,14 +64,10 @@ static int cmd_x(char *args)
 {
   char *N = strtok(NULL, " ");
   int n = atoi(N);
-  char *address = strtok(NULL, " ");
-  int *result = 0x0;
-  sscanf(address, "%x", result);
-
-  for (int i = 0; i < 100; i++)
-  {
-  }
-  printf("n is %d, Memory address is: %p and its value is: \n", n, result);
+  // char *address = strtok(NULL, " ");
+  int *result = (int *)0x10000000;
+  // sscanf(address, "%x", result);
+  printf("n is %d, Memory address is: %p and its value is: %d\n", n, result, *result);
 
   return 0;
 }
