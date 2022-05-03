@@ -47,7 +47,7 @@ static int cmd_si(char *args)
 {
   int iters = (args == NULL) ? 1 : atoi(args);
   for (int i = 0; i < iters; i++)
-    isa_exec_once();
+    cpu_exec(1);
   return 0;
 }
 
