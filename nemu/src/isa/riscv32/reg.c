@@ -13,7 +13,7 @@ void isa_reg_display()
   for (int i = 0; i < 32; i++)
   {
     success = false;
-    printf("%s\t%d\n", regs[i], isa_reg_str2val(regs[i], &success));
+    printf("%s\t0x%08x\n", regs[i], isa_reg_str2val(regs[i], &success));
   }
 }
 

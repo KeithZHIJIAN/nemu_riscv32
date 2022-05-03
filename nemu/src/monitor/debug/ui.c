@@ -1,6 +1,7 @@
 #include "expr.h"
 #include "watchpoint.h"
 #include <isa.h>
+#include <memory/paddr.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -45,9 +46,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-  int iters = (args == NULL) ? 1 : atoi(args);
-  for (int i = 0; i < iters; i++)
-    cpu_exec(1);
+  int steps = (args == NULL) ? 1 : atoi(args);
+  cpu_exec(steps);
   return 0;
 }
 
@@ -62,13 +62,16 @@ static int cmd_info(char *args)
 
 static int cmd_x(char *args)
 {
-  char *N = strtok(NULL, " ");
-  int n = atoi(N);
-  // char *address = strtok(NULL, " ");
-  int *result = (int *)0x10000000;
-  // sscanf(address, "%x", result);
-  printf("n is %d, Memory address is: %p and its value is: %d\n", n, result, 1);
-
+  if (args == NULL)
+  {
+    return 0;
+  }
+  int n, exprs;
+  sscanf(args, "%d%x", &n, &exprs);
+  for (int i = 0; i < n; i++)
+  {
+    printf("0x%8x\t0x%x\n", exprs + i * 32, paddr_read(exprs + i * 32, 32));
+  }
   return 0;
 }
 
