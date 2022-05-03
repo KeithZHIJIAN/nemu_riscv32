@@ -64,11 +64,11 @@ static int cmd_x(char *args)
 {
   char *N = strtok(args, " ");
   int n = atoi(N);
-  int *address = (int *)strtok(args, "\0");
+  int address = atoi(strtok(args, "\0"));
 
   for (int i = 0; i < n; i++)
   {
-    printf("Memory address is: %p and its value is: %d\n", address, *address);
+    printf("Memory address is: %d and its value is: %d\n", address, 0);
   }
   return 0;
 }
