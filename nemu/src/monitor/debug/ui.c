@@ -1,7 +1,7 @@
 #include "expr.h"
 #include "watchpoint.h"
 #include <isa.h>
-#include <memory/vaddr.h>
+#include <memory/paddr.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -71,7 +71,7 @@ static int cmd_x(char *args)
   sscanf(args, "%d%x", &n, &exprs);
   for (int i = 0; i < n; i++)
   {
-    printf("0x%8x\t0x%x\n", exprs + i * 32, vaddr_read(exprs + i * 32, 4));
+    printf("0x%8x\t0x%x\n", exprs + i * 32, paddr_read(exprs + i * 32, 4));
   }
   return 0;
 }
