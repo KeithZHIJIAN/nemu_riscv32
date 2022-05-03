@@ -69,10 +69,10 @@ static int cmd_x(char *args)
   int n;
   word_t exprs;
   sscanf(args, "%d%x", &n, &exprs);
-  // for (int i = 0; i < n; i++)
-  // {
-  printf("0x%8x\t0x%x\n", exprs, paddr_read(exprs, 4));
-  // }
+  for (int i = 0; i < n; i++)
+  {
+    printf("0x%8x\t0x%x\n", exprs, paddr_read(exprs, 4));
+  }
   return 0;
 }
 
