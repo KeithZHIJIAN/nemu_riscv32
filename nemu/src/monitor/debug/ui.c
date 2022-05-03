@@ -64,7 +64,7 @@ static int cmd_x(char *args)
 {
   char *N = strtok(args, " ");
   int n = atoi(N);
-  int address = atoi(strtok(args, ""));
+  int address = atoi(args);
 
   for (int i = 0; i < n; i++)
   {
