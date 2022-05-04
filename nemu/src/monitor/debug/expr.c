@@ -31,7 +31,9 @@ static struct rule
     {"\\+", '+'}, // plus
     {"-", '-'},
     {"==", TK_EQ}, // equal
-    {"[0-9]+", TK_NUM}
+    {"\\b[0-9]+\\b", TK_NUM},
+    {"(", '('},
+    {")", ')'},
 
 };
 
@@ -98,6 +100,20 @@ static bool make_token(char *e)
 
         switch (rules[i].token_type)
         {
+        case TK_NUM:
+          // make_number_token(substr_start, substr_len);
+          break;
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '(':
+        case ')':
+        case TK_EQ:
+          strncpy(tokens[nr_token].str, substr_start, substr_len);
+          tokens[nr_token].type = rules[i].token_type;
+        case TK_NOTYPE:
+          break;
         default:
           TODO();
         }
@@ -128,4 +144,8 @@ word_t expr(char *e, bool *success)
   TODO();
 
   return 0;
+}
+
+void make_number_token(char *start, int length)
+{
 }
