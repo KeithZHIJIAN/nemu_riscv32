@@ -33,7 +33,7 @@ static struct rule
     {"-", '-'},
     {"\\(", '('},
     {"\\)", ')'},
-    {"[0-9]+", TK_NUM}
+    {"\\b[0-9]+\\b", TK_NUM}
 
 };
 
@@ -100,6 +100,13 @@ static bool make_token(char *e)
 
         switch (rules[i].token_type)
         {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '(':
+        case ')':
+          strncpy(tokens[nr_token].str, substr_start, substr_len);
         case TK_EQ:
           break;
         default:
