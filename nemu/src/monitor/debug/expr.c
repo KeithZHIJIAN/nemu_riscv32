@@ -1,5 +1,5 @@
 #include <isa.h>
-
+#include <stdlib.h>
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -27,10 +27,10 @@ static struct rule
 
     {" +", TK_NOTYPE}, // spaces
     {"\\+", '+'},      // plus
-    {"==", TK_EQ},     // equal
+    {"-", '-'},
+    {"==", TK_EQ}, // equal
     {"\\*", '*'},
     {"/", '/'},
-    {"-", '-'},
     {"\\(", '('},
     {"\\)", ')'},
     {"\\b[0-9]+\\b", TK_NUM}
@@ -100,17 +100,21 @@ static bool make_token(char *e)
 
         switch (rules[i].token_type)
         {
+        case TK_NUM:
+          strncpy(tokens[nr_token].str, substr_start, substr_len);
         case '+':
         case '-':
         case '*':
         case '/':
         case '(':
         case ')':
-          strncpy(tokens[nr_token].str, substr_start, substr_len);
         case TK_EQ:
+          tokens[nr_token].type = rules[i].token_type;
+          nr_token++;
+        case TK_NOTYPE:
           break;
         default:
-          TODO();
+          assert(0);
         }
 
         break;
@@ -127,6 +131,108 @@ static bool make_token(char *e)
   return true;
 }
 
+bool check_parentheses(int p, int q)
+{
+  if (tokens[p].type != '(' || tokens[q].type != ')')
+    return false;
+  int cnt = 0;
+  for (int i = q; i >= p; i--)
+  {
+    if (tokens[i].type == ')')
+    {
+      cnt++;
+    }
+    else if (tokens[i].type == '(')
+    {
+      cnt--;
+      if (cnt < 0)
+      {
+        return false;
+      }
+    }
+    else
+    {
+      if (cnt == 0)
+      {
+        return false;
+      }
+    }
+  }
+  return cnt == 0;
+}
+
+word_t eval(int p, int q, bool *success)
+{
+  if (p > q)
+  {
+    /* Bad expression */
+    *success = false;
+    return 0;
+  }
+  else if (p == q)
+  {
+    /* Single token.
+     * For now this token should be a number.
+     * Return the value of the number.
+     */
+    return atol(tokens[p].str);
+  }
+  else if (check_parentheses(p, q) == true)
+  {
+    /* The expression is surrounded by a matched pair of parentheses.
+     * If that is the case, just throw away the parentheses.
+     */
+    return eval(p + 1, q - 1, success);
+  }
+  else
+  {
+    // op = the position of 主运算符 in the token expression;
+    int op = -1;
+    int cnt = 0;
+    for (int i = p; i <= q; i++)
+    {
+      if (tokens[i].type == '(')
+        cnt++;
+      else if (tokens[i].type == ')')
+      {
+        if (--cnt < 0)
+        {
+          *success = false;
+          return 0;
+        }
+      }
+      if (cnt != 0)
+        continue;
+      if (op == -1 && (tokens[i].type == '*' || tokens[i].type == '/'))
+      {
+        op = i;
+      }
+      if (tokens[i].type == '+' || tokens[i].type == '-')
+      {
+        op = i;
+        break;
+      }
+    }
+
+    word_t val1 = eval(p, op - 1, success);
+    word_t val2 = eval(op + 1, q, success);
+
+    switch (tokens[op].type)
+    {
+    case '+':
+      return val1 + val2;
+    case '-':
+      return val1 - val2;
+    case '*':
+      return val1 * val2;
+    case '/':
+      return val1 / val2;
+    default:
+      assert(0);
+    }
+  }
+}
+
 word_t expr(char *e, bool *success)
 {
   if (!make_token(e))
@@ -136,7 +242,6 @@ word_t expr(char *e, bool *success)
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  word_t ret = eval(0, nr_token - 1, success);
+  return *success ? ret : 0;
 }
