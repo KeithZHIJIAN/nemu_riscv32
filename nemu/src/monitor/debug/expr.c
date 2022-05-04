@@ -1,5 +1,4 @@
 #include <isa.h>
-#include <stdlib.h>
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -12,6 +11,7 @@ enum
 
   /* TODO: Add more token types */
   TK_NUM,
+  TK_NEG,
 
 };
 
@@ -109,8 +109,7 @@ static bool make_token(char *e)
         case '(':
         case ')':
         case TK_EQ:
-          tokens[nr_token].type = rules[i].token_type;
-          nr_token++;
+          tokens[nr_token++].type = rules[i].token_type;
         case TK_NOTYPE:
           break;
         default:
@@ -175,7 +174,9 @@ word_t eval(int p, int q, bool *success)
      * For now this token should be a number.
      * Return the value of the number.
      */
-    return atol(tokens[p].str);
+    word_t ret = 0;
+    sscanf(tokens[p].str, "%u", &ret);
+    return ret;
   }
   else if (check_parentheses(p, q) == true)
   {
