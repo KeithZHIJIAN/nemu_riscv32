@@ -27,7 +27,10 @@ static struct rule
     {" +", TK_NOTYPE}, // spaces
     {"\\+", '+'},      // plus
     {"==", TK_EQ},     // equal
+    // Added rules
     {"\\-", '-'},
+    {"\\*", '*'},
+    {"\\/", '/'},
 
 };
 
