@@ -9,7 +9,6 @@ enum
 {
   TK_NOTYPE = 256,
   TK_EQ,
-  TK_NUM
 
   /* TODO: Add more token types */
 
@@ -26,15 +25,8 @@ static struct rule
      */
 
     {" +", TK_NOTYPE}, // spaces
-    {"\\*", '*'},
-    {"/", '/'},
-    {"\\+", '+'}, // plus
-    {"-", '-'},
-    {"==", TK_EQ}, // equal
-    {"\\b[0-9]+\\b", TK_NUM},
-    {"(", '('},
-    {")", ')'},
-
+    {"\\+", '+'},      // plus
+    {"==", TK_EQ},     // equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]))
@@ -100,20 +92,6 @@ static bool make_token(char *e)
 
         switch (rules[i].token_type)
         {
-        // case TK_NUM:
-        //   // make_number_token(substr_start, substr_len);
-        //   break;
-        // case '+':
-        // case '-':
-        // case '*':
-        // case '/':
-        // case '(':
-        // case ')':
-        // case TK_EQ:
-        //   strncpy(tokens[nr_token].str, substr_start, substr_len);
-        //   tokens[nr_token].type = rules[i].token_type;
-        // case TK_NOTYPE:
-        //   break;
         default:
           TODO();
         }
@@ -144,8 +122,4 @@ word_t expr(char *e, bool *success)
   TODO();
 
   return 0;
-}
-
-void make_number_token(char *start, int length)
-{
 }
