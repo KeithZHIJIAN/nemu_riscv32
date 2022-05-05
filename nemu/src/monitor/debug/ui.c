@@ -54,7 +54,7 @@ static int cmd_test(char *args)
   {
     word_t ret = atol(strtok(buffer, " "));
     bool t = true;
-    printf("ans is %d, expr gets %d, expression is %s\n", ret, expr(buffer, &t), buffer);
+    printf("ans is %d, expression is %s, expr gets %d\n", ret, buffer, expr(buffer, &t));
   }
 
   fclose(fp);
