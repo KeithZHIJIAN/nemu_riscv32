@@ -8,10 +8,15 @@ enum
 {
   TK_NOTYPE = 256,
   TK_EQ,
+  TK_NE,
 
   /* TODO: Add more token types */
-  TK_NUM,
+  TK_DEC,
+  TK_HEX,
   TK_NEG,
+  TK_AND,
+  TK_OR,
+  TK_REG,
 
 };
 
@@ -28,12 +33,17 @@ static struct rule
     {" +", TK_NOTYPE}, // spaces
     {"\\+", '+'},      // plus
     {"-", '-'},
-    {"==", TK_EQ}, // equal
     {"\\*", '*'},
     {"/", '/'},
+    {"==", TK_EQ}, // equal
+    {"!=", TK_NE},
+    {"\\|\\|", TK_OR},
+    {"&&", TK_AND},
     {"\\(", '('},
     {"\\)", ')'},
-    {"\\b[0-9]+\\b", TK_NUM}
+    {"[0-9]+", TK_DEC},
+    {"0[xX][0-9a-fA-F]+", TK_HEX},
+    {"a[0-7]|s[02-9]|s1[0-2]?|t[0-6p]|[sg]p|\\$0|ra", TK_REG},
 
 };
 
@@ -100,7 +110,7 @@ static bool make_token(char *e)
 
         switch (rules[i].token_type)
         {
-        case TK_NUM:
+        case TK_DEC:
           strncpy(tokens[nr_token].str, substr_start, substr_len);
         case '+':
         case '-':
@@ -128,7 +138,7 @@ static bool make_token(char *e)
   }
   for (i = 0; i < nr_token; i++)
   {
-    if (tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != TK_NUM && tokens[i - 1].type != ')')))
+    if (tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != TK_DEC && tokens[i - 1].type != ')')))
     {
       tokens[i].type = TK_NEG;
     }
@@ -172,6 +182,7 @@ word_t eval(int p, int q, bool *success)
   if (p > q)
   {
     /* Bad expression */
+    *success = false;
     return 0;
   }
   else if (p == q)
@@ -180,8 +191,32 @@ word_t eval(int p, int q, bool *success)
      * For now this token should be a number.
      * Return the value of the number.
      */
+
+    if (tokens[p].type != TK_DEC && tokens[p].type != TK_HEX && tokens[p].type != TK_REG)
+    {
+      printf("single token is wrong:%d\n", p);
+      *success = false;
+      return 0;
+    }
     word_t ret = 0;
-    sscanf(tokens[p].str, "%u", &ret);
+    if (tokens[p].type == TK_REG)
+    {
+      bool t = true;
+      ret = isa_reg_str2val(tokens[p].str, &t);
+      if (!t)
+      {
+        *success = false;
+        ret = 0;
+      }
+    }
+    else if (tokens[p].type == TK_HEX)
+    {
+      sscanf(tokens[p].str, "%x", &ret);
+    }
+    else
+    {
+      sscanf(tokens[p].str, "%u", &ret);
+    }
     return ret;
   }
   else if (check_parentheses(p, q) == true)
@@ -199,6 +234,7 @@ word_t eval(int p, int q, bool *success)
     bool found = false;
     for (int i = p; i <= q; i++)
     {
+
       if (tokens[i].type == '(')
         cnt++;
       else if (tokens[i].type == ')')
@@ -227,13 +263,21 @@ word_t eval(int p, int q, bool *success)
       }
     }
 
-    word_t val1 = eval(p, op - 1, success);
+    if (op == -1)
+    {
+      /* No operator found. */
+      *success = false;
+      return 0;
+    }
+    word_t val1 = 0;
+    if (tokens[op].type != TK_NEG)
+      val1 = eval(p, op - 1, success);
     word_t val2 = eval(op + 1, q, success);
+    if (!*success)
+      return 0;
 
     switch (tokens[op].type)
     {
-    case TK_NEG:
-      return -val2;
     case '+':
       return val1 + val2;
     case '-':
@@ -244,8 +288,21 @@ word_t eval(int p, int q, bool *success)
       return val1 * val2;
     case '/':
       return val1 / val2;
+    case TK_EQ:
+      return val1 == val2;
+    case TK_NE:
+      return val1 != val2;
+    case TK_AND:
+      return val1 && val2;
+    case TK_OR:
+      return val1 || val2;
+    case TK_NEG:
+      return -val2;
+    case '(':
+    case ')':
     default:
-      assert(0);
+      *success = false;
+      return 0;
     }
   }
 }
