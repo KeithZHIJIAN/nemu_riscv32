@@ -44,6 +44,27 @@ static int cmd_q(char *args)
 
 static int cmd_help(char *args);
 
+static int cmd_test(char *args)
+{
+  FILE *fp = fopen("/home/zj/ics2020/nemu/tools/gen-expr/input", "r");
+  int bufferLength = 32;
+  char buffer[bufferLength]; /* not ISO 90 compatible */
+
+  while (fgets(buffer, bufferLength, fp))
+  {
+    word_t ret = atol(strtok(buffer, " "));
+    bool t = true;
+    printf("ans is %d, expr gets %d\n", ret, expr(buffer, &t));
+    if (!t)
+    {
+      printf("error\n");
+    }
+  }
+
+  fclose(fp);
+  return 0;
+}
+
 static int cmd_si(char *args)
 {
   int steps = (args == NULL) ? 1 : atoi(args);
@@ -97,6 +118,7 @@ static struct
     {"si", "Step through a single instruction", cmd_si},
     {"info", "List information about the argument", cmd_info},
     {"x", "Display the memory contents at a given address", cmd_x},
+    {"test", "Test the gen-expr", cmd_test},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
