@@ -78,6 +78,7 @@ static int cmd_x(char *args)
       printf("%02x ", data & 0xff);
       data >>= 8;
     }
+    printf("\n");
   }
   return 0;
 }
