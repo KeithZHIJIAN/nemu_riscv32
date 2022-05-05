@@ -47,7 +47,7 @@ static int cmd_help(char *args);
 static int cmd_test(char *args)
 {
   FILE *fp = fopen("/home/zj/ics2020/nemu/tools/gen-expr/input", "r");
-  int bufferLength = 32;
+  int bufferLength = 128;
   char buffer[bufferLength]; /* not ISO 90 compatible */
 
   while (fgets(buffer, bufferLength, fp))
