@@ -125,16 +125,6 @@ void init_monitor(int argc, char *argv[])
   /* Compile the regular expressions. */
   init_regex();
 
-  FILE *fp = fopen("/home/zj/ics2020/nemu/tools/gen-expr/input", "r");
-  int bufferLength = 255;
-  char buffer[bufferLength]; /* not ISO 90 compatible */
-
-  while (fgets(buffer, bufferLength, fp))
-  {
-    printf("%s\n", buffer);
-  }
-  fclose(fp);
-
   /* Initialize the watchpoint pool. */
   init_wp_pool();
 
