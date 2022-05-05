@@ -126,6 +126,13 @@ static bool make_token(char *e)
       return false;
     }
   }
+  for (i = 0; i < nr_token; i++)
+  {
+    if (tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != TK_NUM && tokens[i - 1].type != ')')))
+    {
+      tokens[i].type = TK_NEG;
+    }
+  }
 
   return true;
 }
@@ -165,7 +172,6 @@ word_t eval(int p, int q, bool *success)
   if (p > q)
   {
     /* Bad expression */
-    *success = false;
     return 0;
   }
   else if (p == q)
@@ -190,6 +196,7 @@ word_t eval(int p, int q, bool *success)
     // op = the position of 主运算符 in the token expression;
     int op = -1;
     int cnt = 0;
+    bool found = false;
     for (int i = p; i <= q; i++)
     {
       if (tokens[i].type == '(')
@@ -204,9 +211,14 @@ word_t eval(int p, int q, bool *success)
       }
       if (cnt != 0)
         continue;
-      if (op == -1 && (tokens[i].type == '*' || tokens[i].type == '/'))
+      if (op == -1 && tokens[i].type == TK_NEG)
       {
         op = i;
+      }
+      if (!found && (tokens[i].type == '*' || tokens[i].type == '/'))
+      {
+        op = i;
+        found = true;
       }
       if (tokens[i].type == '+' || tokens[i].type == '-')
       {
@@ -220,9 +232,13 @@ word_t eval(int p, int q, bool *success)
 
     switch (tokens[op].type)
     {
+    case TK_NEG:
+      return -val2;
     case '+':
       return val1 + val2;
     case '-':
+      if (val1 < val2)
+        assert(0);
       return val1 - val2;
     case '*':
       return val1 * val2;
