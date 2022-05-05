@@ -53,7 +53,7 @@ static int cmd_test(char *args)
   while (fgets(buffer, bufferLength, fp))
   {
     word_t ret = 0;
-    char p[32];
+    char p[128];
     sscanf(buffer, "%d %s", &ret, p);
     bool t = true;
     printf("ans is %d, expression is %s, expr gets %d\n", ret, p, expr(p, &t));
