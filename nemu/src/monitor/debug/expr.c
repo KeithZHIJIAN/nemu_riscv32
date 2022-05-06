@@ -158,22 +158,22 @@ static int op_pri(int op)
   {
   case TK_NEG:
   case TK_DEREF:
-    return 6;
+    return 1;
   case '*':
   case '/':
-    return 5;
+    return 2;
   case '+':
   case '-':
-    return 4;
+    return 3;
   case TK_EQ:
   case TK_NE:
-    return 3;
+    return 4;
   case TK_AND:
-    return 2;
+    return 5;
   case TK_OR:
-    return 1;
+    return 6;
   default:
-    return -1;
+    return 7;
   }
 }
 
