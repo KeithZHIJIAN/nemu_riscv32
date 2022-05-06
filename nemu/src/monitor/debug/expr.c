@@ -310,10 +310,10 @@ word_t eval(int p, int q, bool *success)
       *success = false;
       return 0;
     }
-    word_t val1 = 0;
+    int32_t val1 = 0;
     if (tokens[op].type != TK_NEG && tokens[op].type != TK_DEREF)
       val1 = eval(p, op - 1, success);
-    word_t val2 = eval(op + 1, q, success);
+    int32_t val2 = eval(op + 1, q, success);
     if (!*success)
       return 0;
 
