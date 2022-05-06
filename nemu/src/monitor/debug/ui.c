@@ -47,13 +47,13 @@ static int cmd_help(char *args);
 static int cmd_test(char *args)
 {
   FILE *fp = fopen("/home/zj/ics2020/nemu/tools/gen-expr/input2", "r");
-  int bufferLength = 128;
+  int bufferLength = 256;
   char buffer[bufferLength]; /* not ISO 90 compatible */
 
   while (fgets(buffer, bufferLength, fp))
   {
     word_t ret = 0;
-    char p[128];
+    char p[256];
     sscanf(buffer, "%d %s", &ret, p);
     bool t = true;
     printf("ans is %d, %d, expression is %s, expr gets\n", ret, expr(p, &t), p);
