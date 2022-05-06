@@ -209,7 +209,7 @@ word_t find_main_op(int p, int q)
     case TK_NE:
     case TK_AND:
     case TK_OR:
-      if (priority < 0 || priority > op_pri(tokens[i].type))
+      if (priority < 0 || priority < op_pri(tokens[i].type))
       {
         priority = tokens[i].type;
         op = i;
