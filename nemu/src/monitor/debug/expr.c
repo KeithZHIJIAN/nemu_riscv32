@@ -17,6 +17,7 @@ enum
   TK_AND,
   TK_OR,
   TK_REG,
+  TK_DEREF,
 
 };
 
