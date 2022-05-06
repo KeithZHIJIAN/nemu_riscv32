@@ -173,7 +173,7 @@ static int op_pri(int op)
   case TK_OR:
     return 6;
   default:
-    return 7;
+    return -1;
   }
 }
 
