@@ -56,7 +56,7 @@ static int cmd_test(char *args)
     char p[128];
     sscanf(buffer, "%d %s", &ret, p);
     bool t = true;
-    printf("ans is %d, expression is %s, expr gets %d\n", ret, p, expr(p, &t));
+    printf("ans is %d, %d, expression is %s, expr gets\n", ret, expr(p, &t), p);
   }
 
   fclose(fp);
