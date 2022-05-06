@@ -184,7 +184,7 @@ word_t find_main_op(int p, int q)
   int cnt = 0;
   int priority = -1;
 
-  for (int i = q; i <= p; i--)
+  for (int i = q; i >= p; i--)
   {
     if (tokens[i].type == ')')
       cnt++;
