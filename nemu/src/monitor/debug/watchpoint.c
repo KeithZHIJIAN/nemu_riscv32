@@ -45,6 +45,11 @@ void free_wp(int wp_no)
     prev = p;
     p = p->next;
   }
+  if (p == NULL)
+  {
+    printf("Watchpoint not found!\n");
+    return;
+  }
   if (prev == NULL)
   {
     head = p->next;
