@@ -44,24 +44,24 @@ static int cmd_q(char *args)
 
 static int cmd_help(char *args);
 
-static int cmd_test(char *args)
-{
-  FILE *fp = fopen("/home/zj/ics2020/nemu/tools/gen-expr/input", "r");
-  int bufferLength = 256;
-  char buffer[bufferLength]; /* not ISO 90 compatible */
+// static int cmd_test(char *args)
+// {
+//   FILE *fp = fopen("/home/zj/ics2020/nemu/tools/gen-expr/input", "r");
+//   int bufferLength = 256;
+//   char buffer[bufferLength]; /* not ISO 90 compatible */
 
-  while (fgets(buffer, bufferLength, fp))
-  {
-    word_t ret = 0;
-    char p[256];
-    sscanf(buffer, "%d %s", &ret, p);
-    bool t = true;
-    printf("ans is %d, %d, expression is %s, expr gets\n", ret, expr(p, &t), p);
-  }
+//   while (fgets(buffer, bufferLength, fp))
+//   {
+//     word_t ret = 0;
+//     char p[256];
+//     sscanf(buffer, "%d %s", &ret, p);
+//     bool t = true;
+//     printf("ans is %d, %d, expression is %s, expr gets\n", ret, expr(p, &t), p);
+//   }
 
-  fclose(fp);
-  return 0;
-}
+//   fclose(fp);
+//   return 0;
+// }
 
 static int cmd_si(char *args)
 {
@@ -75,7 +75,20 @@ static int cmd_info(char *args)
   if (strcmp(args, "r\0") == 0)
     isa_reg_display();
   else if (strcmp(args, "w\0") == 0)
-    ;
+    watchpoints_display();
+  return 0;
+}
+
+static int cmd_d(char *args)
+{
+  if (args == NULL)
+  {
+    printf("d command needs an argument.\n");
+    return 0;
+  }
+  int wp_no = 0;
+  sscanf(args, "%d", &wp_no);
+  free_wp(wp_no);
   return 0;
 }
 
@@ -116,7 +129,8 @@ static struct
     {"si", "Step through a single instruction", cmd_si},
     {"info", "List information about the argument", cmd_info},
     {"x", "Display the memory contents at a given address", cmd_x},
-    {"test", "Test the gen-expr", cmd_test},
+    {"d", "Delete a watchpoint", cmd_d},
+    // {"test", "Test the gen-expr", cmd_test},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))

@@ -36,23 +36,60 @@ WP *new_wp()
   return wp;
 }
 
-void free_wp(WP *wp)
+void free_wp(int wp_no)
 {
   WP *p = head;
   WP *prev = NULL;
-  while (p != wp)
+  while (p != NULL && p->NO != wp_no)
   {
     prev = p;
     p = p->next;
   }
   if (prev == NULL)
   {
-    head = wp->next;
+    head = p->next;
   }
   else
   {
-    prev->next = wp->next;
+    prev->next = p->next;
   }
-  wp->next = free_;
-  free_ = wp;
+  p->next = free_;
+  free_ = p;
+  printf("Watchpoint %d is freed.\n", wp_no);
+}
+
+void trace_watchpoints(bool *stop)
+{
+  WP *wp = head;
+  while (wp != NULL)
+  {
+    bool t = true;
+    word_t curr_val = expr(wp->expr, &t);
+
+    if (!t)
+    {
+      printf("expr error\n");
+      return;
+    }
+
+    if (wp->prev_val != curr_val)
+    {
+      printf("Watchpoint triggerred! No %d changed from %d to %d\n", wp->NO, wp->prev_val, curr_val);
+      wp->prev_val = curr_val;
+      *stop = true;
+    }
+
+    wp = wp->next;
+  }
+}
+
+void watchpoints_display()
+{
+  WP *wp = head;
+  printf("No \t|\t What \t|\t Value\n");
+  while (wp != NULL)
+  {
+    printf("%d \t|\t %s \t|\t %d\n", wp->NO, wp->expr, wp->prev_val);
+    wp = wp->next;
+  }
 }
