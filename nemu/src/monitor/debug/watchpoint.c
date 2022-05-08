@@ -104,7 +104,7 @@ void trace_watchpoints(bool *stop)
 void watchpoints_display()
 {
   WP *wp = head;
-  printf("| No \t| What \t\t| Value \t\t|\n");
+  printf("| No \t| What \t\t| Value \t|\n");
   while (wp != NULL)
   {
     printf("| %d \t| %s \t| 0x%08x \t|\n", wp->NO, wp->expr, wp->prev_val);
