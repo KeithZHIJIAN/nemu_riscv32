@@ -107,7 +107,7 @@ void watchpoints_display()
   printf("| No \t| What \t\t| Value \t|\n");
   while (wp != NULL)
   {
-    printf("| %d \t| %s \t| 0x%08x \t|\n", wp->NO, wp->expr, wp->prev_val);
+    printf("| %d \t| %-8s \t| 0x%08x \t|\n", wp->NO, wp->expr, wp->prev_val);
     wp = wp->next;
   }
 }
