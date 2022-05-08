@@ -31,7 +31,7 @@ static struct rule
     {" +", TK_NOTYPE}, // spaces
     {"[0-9]+", TK_DEC},
     {"0[xX][0-9a-fA-F]+", TK_HEX},
-    {"\\$(\\$0|ra|[sgt]p|t[0-6]|a[0-7]|s([0-9]|1[0-1]))", TK_REG},
+    {"\\$(\\$0|ra|[sgt]p|t[0-6]|a[0-7]|s([0-9]|1[0-1])|pc)", TK_REG},
     {"\\|\\|", TK_OR},
     {"&&", TK_AND},
     {"==", TK_EQ}, // equal
