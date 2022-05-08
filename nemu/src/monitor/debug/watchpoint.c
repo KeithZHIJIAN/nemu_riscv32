@@ -92,7 +92,7 @@ void trace_watchpoints(bool *stop)
 
     if (wp->prev_val != curr_val)
     {
-      printf("Watchpoint triggerred! No %d changed from %d to %d\n", wp->NO, wp->prev_val, curr_val);
+      printf("Watchpoint %d triggerred! Value changed from 0x%08x to 0x%08x\n", wp->NO, wp->prev_val, curr_val);
       wp->prev_val = curr_val;
       *stop = true;
     }

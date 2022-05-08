@@ -101,7 +101,7 @@ void cpu_exec(uint64_t n)
 
     g_nr_guest_instr++;
 
-    // #ifdef DEBUG
+#ifdef DEBUG
     asm_print(this_pc, seq_pc - this_pc, n < MAX_INSTR_TO_PRINT);
 
     /* TODO: check watchpoints here. */
@@ -109,7 +109,7 @@ void cpu_exec(uint64_t n)
     trace_watchpoints(&stop);
     if (stop)
       nemu_state.state = NEMU_STOP;
-      // #endif
+#endif
 
 #ifdef HAS_IOE
     extern void device_update();
