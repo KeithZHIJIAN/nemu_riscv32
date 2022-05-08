@@ -86,10 +86,10 @@ void trace_watchpoints(bool *stop)
 void watchpoints_display()
 {
   WP *wp = head;
-  printf("| No \t| What \t| Value \t|\n");
+  printf("| No \t\t| What \t\t| Value \t|\n");
   while (wp != NULL)
   {
-    printf("| %d \t| %s \t| %d \t|\n", wp->NO, wp->expr, wp->prev_val);
+    printf("| %d \t\t| %s \t\t| %d \t|\n", wp->NO, wp->expr, wp->prev_val);
     wp = wp->next;
   }
 }
