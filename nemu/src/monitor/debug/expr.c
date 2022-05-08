@@ -280,7 +280,9 @@ word_t eval(int p, int q, bool *success)
     if (tokens[p].type == TK_REG)
     {
       bool t = true;
-      ret = isa_reg_str2val(tokens[p].str, &t);
+      char reg[4] = {};
+      sscanf(tokens[p].str, "$%s", reg);
+      ret = isa_reg_str2val(reg, &t);
       if (!t)
       {
         *success = false;
