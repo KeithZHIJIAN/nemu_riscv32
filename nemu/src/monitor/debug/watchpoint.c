@@ -33,7 +33,7 @@ WP *new_wp(char *args)
   free_ = wp->next;
   wp->next = head;
   head = wp;
-  strcpy(wp->expr, args);
+  sscanf(args, "%s", wp->expr);
   bool t = true;
   wp->prev_val = expr(args, &t);
   if (t) // if expr is valid
