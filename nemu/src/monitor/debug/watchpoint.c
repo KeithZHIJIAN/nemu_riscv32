@@ -22,7 +22,7 @@ void init_wp_pool()
 
 /* TODO: Implement the functionality of watchpoint */
 
-WP *new_wp()
+WP *new_wp(char *args)
 {
   WP *wp = free_;
   if (wp == NULL)
@@ -33,6 +33,19 @@ WP *new_wp()
   free_ = wp->next;
   wp->next = head;
   head = wp;
+  strcpy(wp->expr, args);
+  bool t = true;
+  wp->prev_val = expr(args, &t);
+  if (t) // if expr is valid
+  {
+    printf("Watchpoint %d is watching %s.\n", wp->NO, wp->expr);
+  }
+  else
+  {
+    printf("Invalid expression: %s\n", wp->expr);
+    free_wp(wp->NO);
+    return NULL;
+  }
   return wp;
 }
 

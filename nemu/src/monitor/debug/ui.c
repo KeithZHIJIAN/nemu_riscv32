@@ -92,6 +92,21 @@ static int cmd_d(char *args)
   return 0;
 }
 
+static int cmd_w(char *args)
+{
+  if (args == NULL)
+  {
+    printf("w command needs an argument.\n");
+    return 0;
+  }
+  WP *wp = new_wp(args);
+  if (wp == NULL)
+  {
+    printf("Failed to create watchpoint.\n");
+  }
+  return 0;
+}
+
 static int cmd_x(char *args)
 {
   if (args == NULL)
@@ -130,6 +145,7 @@ static struct
     {"info", "List information about the argument", cmd_info},
     {"x", "Display the memory contents at a given address", cmd_x},
     {"d", "Delete a watchpoint", cmd_d},
+    {"w", "Create a watchpoint", cmd_w},
     // {"test", "Test the gen-expr", cmd_test},
 };
 
