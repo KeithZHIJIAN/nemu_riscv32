@@ -109,6 +109,12 @@ static bool make_token(char *e)
         switch (rules[i].token_type)
         {
         case TK_DEC:
+        case TK_HEX:
+        case TK_REG:
+        case TK_EQ:
+        case TK_NE:
+        case TK_AND:
+        case TK_OR:
           strncpy(tokens[nr_token].str, substr_start, substr_len);
         case '+':
         case '-':
@@ -116,7 +122,6 @@ static bool make_token(char *e)
         case '/':
         case '(':
         case ')':
-        case TK_EQ:
           tokens[nr_token++].type = rules[i].token_type;
         case TK_NOTYPE:
           break;
