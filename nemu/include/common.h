@@ -8,11 +8,11 @@
 #define ISA64
 #endif
 
-// #if _SHARE
+#if _SHARE
 // do not enable these features while building a reference design
 #undef DIFF_TEST
 #undef DEBUG
-// #endif
+#endif
 
 /* You will define this macro in PA2 */
 //#define HAS_IOE
